@@ -15,4 +15,4 @@ python3 -m http.server 8000
 ```
 Then open http://localhost:8000.
 
-Team Parag: Pravin Menghani and Purshottam Assudani.
+Team Parag: Pravin Menghani, Purshottam Assudani and Qais Poonawala.

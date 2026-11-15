@@ -172,13 +172,13 @@ section{padding:96px 0}
 @media(max-width:900px){.biz-grid{grid-template-columns:1fr}}
 
 /* team */
-.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
-.member{display:flex;gap:22px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.member{display:flex;flex-direction:column;gap:18px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px}
 .avatar{flex-shrink:0;width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--honey),var(--sprout));display:grid;place-items:center;font-family:Fraunces,serif;font-size:1.6rem;font-weight:700;color:#fff}
 .member h3{font-size:1.3rem}
 .member .role{color:var(--honey-deep);font-weight:600;font-size:.9rem;margin-bottom:10px}
 .member p{color:var(--muted);font-size:.95rem}
-@media(max-width:860px){.team-grid{grid-template-columns:1fr}.member{flex-direction:column}}
+@media(max-width:960px){.team-grid{grid-template-columns:1fr}}
 
 /* why now */
 .why{background:var(--leaf);color:#e8efe9;border-radius:28px;padding:56px;display:grid;grid-template-columns:1fr 1.4fr;gap:40px;align-items:center}
@@ -452,8 +452,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
       <h2>Team Parag</h2>
     </div>
     <div class="team-grid">
-      <div class="member"><div class="avatar">PM</div><div><h3>Pravin Menghani</h3><div class="role">Co-founder</div><p>21+ years in infrastructure, cloud and AI. Builds production multilingual voice and agentic AI. GenAI trainer for Simplilearn, Edureka and universities; AWS Summit speaker.</p></div></div>
-      <div class="member"><div class="avatar">PA</div><div><h3>Purshottam Assudani</h3><div class="role">Co-founder & Architect</div><p>Freelance consultant to multiple organisations on data, cloud, systems, networks, security and identity & access management. Multi-cloud trainer (Google Cloud, AWS, Azure). Owns Parag's platform architecture, security and farmer-data protection.</p></div></div>
+      <div class="member"><div class="avatar">PM</div><div><h3>Pravin Menghani</h3><div class="role">Co-founder, AI & Product</div><p>21+ years in infrastructure, cloud and AI. Builds production voice and agentic AI. GenAI trainer for Simplilearn, Edureka and universities; AWS Summit speaker.</p></div></div>
+      <div class="member"><div class="avatar">PA</div><div><h3>Purshottam Assudani</h3><div class="role">Co-founder & Chief Architect</div><p>Consultant on cloud, systems, networks, security and IAM. Multi-cloud trainer (Google Cloud, AWS, Azure).</p></div></div>
+      <div class="member"><div class="avatar">QP</div><div><h3>Qais Poonawala</h3><div class="role">Co-founder, Operations</div><p>14+ years in IT infrastructure and operations. Operations Manager at AWS; ex-Vodafone, Convergys. Leads operations and the beekeeper network rollout.</p></div></div>
     </div>
   </div>
 </section>
