@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parag — Making pollination visible for Indian farmers</title>
+<meta name="description" content="Parag is a smartphone-first AI platform that makes crop pollination visible for Indian smallholder farmers. Scan your flowering field, get a pollination score and voice advice in Marathi or Hindi, and book verified nearby beekeepers.">
+<meta property="og:title" content="Parag — Making pollination visible">
+<meta property="og:description" content="Scan your flowering field. See if your crop is getting enough bees. Book verified hives in one tap.">
+<meta property="og:url" content="https://www.paragpollinators.com/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#1f3a2b">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --honey:#f2a516; --honey-deep:#d98a00; --honey-soft:#fff3d6;
+  --leaf:#1f3a2b; --leaf-2:#2e5a41; --sprout:#6fae4f;
+  --cream:#fffaf0; --ink:#1b1f1c; --muted:#5c665f; --line:#e9e1cf;
+  --card:#ffffff; --danger:#c8492f;
+  --radius:18px; --shadow:0 10px 30px rgba(31,58,43,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.15;color:var(--leaf)}
+a{color:inherit}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+.dev{font-family:"Noto Sans Devanagari",sans-serif}
+
+/* nav */
+header{position:sticky;top:0;z-index:50;background:rgba(255,250,240,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:Fraunces,serif;font-weight:700;font-size:1.45rem;color:var(--leaf)}
+.brand small{font-family:"Noto Sans Devanagari",sans-serif;font-size:.95rem;color:var(--honey-deep);font-weight:700}
+.nav ul{display:flex;gap:28px;list-style:none}
+.nav ul a{text-decoration:none;font-weight:500;color:var(--muted);font-size:.95rem}
+.nav ul a:hover{color:var(--leaf)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:600;text-decoration:none;transition:transform .15s,box-shadow .15s;border:0;cursor:pointer;font-size:.98rem}
+.btn:hover{transform:translateY(-1px)}
+.btn-honey{background:var(--honey);color:var(--leaf);box-shadow:0 6px 18px rgba(242,165,22,.35)}
+.btn-ghost{background:transparent;color:var(--leaf);border:1.5px solid var(--leaf)}
+.btn-dark{background:var(--leaf);color:#fff}
+@media(max-width:860px){.nav ul{display:none}}
+
+/* hero */
+.hero{position:relative;overflow:hidden;padding:72px 0 90px}
+.hero::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(600px 400px at 85% 20%,rgba(242,165,22,.22),transparent 70%),
+  radial-gradient(500px 400px at 5% 90%,rgba(111,174,79,.18),transparent 70%);pointer-events:none}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--honey-soft);color:var(--honey-deep);font-weight:600;font-size:.85rem;padding:6px 14px;border-radius:999px;margin-bottom:22px}
+.hero h1{font-size:clamp(2.4rem,5.2vw,4rem);margin-bottom:22px;letter-spacing:-.01em}
+.hero h1 em{font-style:normal;color:var(--honey-deep);position:relative}
+.hero p.lead{font-size:1.18rem;color:var(--muted);max-width:560px;margin-bottom:32px}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap}
+.trust{margin-top:36px;display:flex;gap:26px;flex-wrap:wrap;color:var(--muted);font-size:.9rem}
+.trust span{display:flex;align-items:center;gap:8px}
+.trust b{color:var(--leaf)}
+
+/* phone */
+.phone{width:310px;max-width:100%;margin:0 auto;background:#111;border-radius:42px;padding:12px;box-shadow:0 30px 60px rgba(31,58,43,.28);transform:rotate(2deg)}
+.screen{background:var(--cream);border-radius:32px;overflow:hidden;padding:22px 18px 20px}
+.screen .bar{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-bottom:14px}
+.screen .crop{font-weight:700;color:var(--leaf);font-size:1rem}
+.screen .loc{font-size:.78rem;color:var(--muted);margin-bottom:16px}
+.gauge{position:relative;width:180px;height:100px;margin:0 auto 6px}
+.gauge svg{width:100%;height:100%}
+.gauge .val{position:absolute;bottom:0;left:0;right:0;text-align:center;font-family:Fraunces,serif;font-size:2.3rem;font-weight:700;color:var(--danger);line-height:1}
+.gauge .val small{font-size:.9rem;color:var(--muted)}
+.chip{display:inline-block;font-size:.7rem;padding:3px 10px;border-radius:999px;background:#fdebe6;color:var(--danger);font-weight:600}
+.risk{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin:14px 0 10px;font-size:.8rem}
+.risk b{display:block;font-size:1.05rem;color:var(--leaf)}
+.voice{display:flex;gap:10px;align-items:center;background:var(--leaf);color:#fff;border-radius:14px;padding:10px 12px;font-size:.78rem;margin-bottom:10px}
+.voice .mic{width:30px;height:30px;border-radius:50%;background:var(--honey);display:grid;place-items:center;flex-shrink:0}
+.book{width:100%;background:var(--honey);color:var(--leaf);font-weight:700;border-radius:12px;padding:12px;text-align:center;font-size:.9rem}
+
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.phone{transform:none}}
+
+/* sections */
+section{padding:96px 0}
+.sec-head{max-width:720px;margin-bottom:52px}
+.sec-head .kicker{font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;color:var(--honey-deep);margin-bottom:12px}
+.sec-head h2{font-size:clamp(1.9rem,3.6vw,2.8rem);margin-bottom:16px}
+.sec-head p{color:var(--muted);font-size:1.08rem}
+.center{text-align:center;margin-left:auto;margin-right:auto}
+
+/* problem */
+.problem{background:var(--leaf);color:#e8efe9}
+.problem h2{color:#fff}
+.problem .sec-head p{color:#b9cbbf}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:56px}
+.stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:30px}
+.stat .num{font-family:Fraunces,serif;font-size:2.8rem;font-weight:700;color:var(--honey);line-height:1.1;margin-bottom:8px}
+.stat p{color:#c9d8ce;font-size:.98rem}
+.pains{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.pain{padding:24px 0 0;border-top:1px solid rgba(255,255,255,.16)}
+.pain h3{color:#fff;font-size:1.3rem;margin-bottom:8px}
+.pain p{color:#b9cbbf}
+.src{margin-top:40px;font-size:.78rem;color:#8ea596}
+@media(max-width:860px){.stats,.pains{grid-template-columns:1fr}}
+
+/* how */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;counter-reset:s}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:34px 28px;box-shadow:var(--shadow);position:relative}
+.step .ic{width:56px;height:56px;border-radius:16px;background:var(--honey-soft);display:grid;place-items:center;margin-bottom:20px}
+.step .n{position:absolute;top:24px;right:26px;font-family:Fraunces,serif;font-size:2.6rem;font-weight:700;color:var(--line)}
+.step h3{font-size:1.5rem;margin-bottom:10px}
+.step p{color:var(--muted)}
+@media(max-width:860px){.steps{grid-template-columns:1fr}}
+
+/* demo */
+.demo{background:linear-gradient(180deg,var(--cream),var(--honey-soft))}
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.result-card{background:#fff;border-radius:24px;padding:34px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.result-card .row{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;border-bottom:1px dashed var(--line)}
+.result-card .row:last-of-type{border:0}
+.result-card .k{color:var(--muted);font-size:.95rem}
+.result-card .v{font-weight:700;color:var(--leaf);text-align:right}
+.bar-track{height:12px;background:#f1ebdc;border-radius:99px;overflow:hidden;margin:6px 0 4px}
+.bar-fill{height:100%;width:41%;background:linear-gradient(90deg,var(--danger),var(--honey));border-radius:99px}
+.bench{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted)}
+.note{font-size:.8rem;color:var(--muted);margin-top:14px}
+.feature-list{list-style:none;display:grid;gap:18px}
+.feature-list li{display:flex;gap:14px}
+.feature-list .dot{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--leaf);color:var(--honey);display:grid;place-items:center;font-weight:700;font-size:.85rem}
+.feature-list b{color:var(--leaf)}
+.feature-list p{color:var(--muted);font-size:.97rem}
+@media(max-width:860px){.demo-grid{grid-template-columns:1fr}}
+
+/* benefits */
+.benefits{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.benefit{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px 20px;text-align:center}
+.benefit .em{font-size:2rem;margin-bottom:10px}
+.benefit h3{font-size:1.1rem;margin-bottom:6px}
+.benefit p{font-size:.9rem;color:var(--muted)}
+@media(max-width:1000px){.benefits{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.benefits{grid-template-columns:1fr}}
+
+/* tech */
+.tech{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.models{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:56px}
+.model{border-radius:var(--radius);padding:26px;background:var(--cream);border:1px solid var(--line)}
+.model .tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--leaf-2);background:#e6f0e8;padding:4px 10px;border-radius:999px;margin-bottom:14px}
+.model h3{font-size:1.25rem;margin-bottom:8px}
+.model p{font-size:.92rem;color:var(--muted)}
+@media(max-width:1000px){.models{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.models{grid-template-columns:1fr}}
+
+.arch{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:stretch}
+.lane{background:var(--cream);border:1px solid var(--line);border-radius:16px;padding:18px}
+.lane h4{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--honey-deep);margin-bottom:12px}
+.node{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:.88rem}
+.node b{display:block;color:var(--leaf);font-size:.92rem}
+.node span{color:var(--muted);font-size:.8rem}
+.flow{margin-top:34px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;list-style:none;counter-reset:f}
+.flow li{counter-increment:f;font-size:.92rem;color:var(--muted);padding-left:38px;position:relative}
+.flow li::before{content:counter(f);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--honey);color:var(--leaf);font-weight:700;display:grid;place-items:center;font-size:.8rem}
+@media(max-width:900px){.arch{grid-template-columns:1fr 1fr}.flow{grid-template-columns:1fr}}
+@media(max-width:560px){.arch{grid-template-columns:1fr}}
+
+/* business */
+.biz-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.biz{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px;box-shadow:var(--shadow)}
+.biz h3{font-size:1.3rem;margin-bottom:14px}
+.biz ul{list-style:none;display:grid;gap:10px}
+.biz li{padding-left:24px;position:relative;color:var(--muted);font-size:.96rem}
+.biz li::before{content:"";position:absolute;left:0;top:.55em;width:10px;height:10px;border-radius:3px;background:var(--honey);transform:rotate(45deg)}
+.biz .big{font-family:Fraunces,serif;font-size:2.4rem;color:var(--honey-deep);font-weight:700;line-height:1}
+@media(max-width:900px){.biz-grid{grid-template-columns:1fr}}
+
+/* team */
+.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.member{display:flex;gap:22px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px}
+.avatar{flex-shrink:0;width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--honey),var(--sprout));display:grid;place-items:center;font-family:Fraunces,serif;font-size:1.6rem;font-weight:700;color:#fff}
+.member h3{font-size:1.3rem}
+.member .role{color:var(--honey-deep);font-weight:600;font-size:.9rem;margin-bottom:10px}
+.member p{color:var(--muted);font-size:.95rem}
+@media(max-width:860px){.team-grid{grid-template-columns:1fr}.member{flex-direction:column}}
+
+/* why now */
+.why{background:var(--leaf);color:#e8efe9;border-radius:28px;padding:56px;display:grid;grid-template-columns:1fr 1.4fr;gap:40px;align-items:center}
+.why h2{color:#fff;font-size:clamp(1.8rem,3vw,2.4rem)}
+.why ul{list-style:none;display:grid;gap:16px}
+.why li{display:flex;gap:14px;color:#c9d8ce}
+.why li b{color:var(--honey)}
+@media(max-width:860px){.why{grid-template-columns:1fr;padding:34px 24px}}
+
+/* cta */
+.cta{text-align:center}
+.cta h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:16px}
+.cta p{color:var(--muted);max-width:620px;margin:0 auto 30px;font-size:1.1rem}
+
+footer{border-top:1px solid var(--line);padding:36px 0;color:var(--muted);font-size:.88rem}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+
+/* bee animation */
+.bee{position:absolute;width:34px;animation:fly 14s linear infinite;opacity:.9;pointer-events:none}
+@keyframes fly{
+  0%{transform:translate(0,0) rotate(0)}25%{transform:translate(120px,-40px) rotate(10deg)}
+  50%{transform:translate(220px,20px) rotate(-6deg)}75%{transform:translate(90px,60px) rotate(8deg)}
+  100%{transform:translate(0,0) rotate(0)}}
+@media(prefers-reduced-motion:reduce){.bee{animation:none}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="bee" viewBox="0 0 64 64">
+      <ellipse cx="22" cy="20" rx="12" ry="8" fill="#dff1ff" opacity=".9" transform="rotate(-25 22 20)"/>
+      <ellipse cx="40" cy="18" rx="12" ry="8" fill="#dff1ff" opacity=".9" transform="rotate(20 40 18)"/>
+      <ellipse cx="32" cy="38" rx="18" ry="13" fill="#f2a516"/>
+      <path d="M24 27c-2 7-2 16 0 23M32 25v26M40 27c2 7 2 16 0 23" stroke="#1f3a2b" stroke-width="4" fill="none"/>
+      <circle cx="49" cy="36" r="6" fill="#1f3a2b"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="brand"><svg width="34" height="34"><use href="#bee"/></svg>Parag <small>पराग</small></a>
+    <ul>
+      <li><a href="#problem">Problem</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#tech">Technology</a></li>
+      <li><a href="#business">Business</a></li>
+      <li><a href="#team">Team</a></li>
+    </ul>
+    <a href="#contact" class="btn btn-honey">Join the pilot</a>
+  </div>
+</header>
+
+<main>
+<!-- HERO -->
+<section class="hero">
+  <svg class="bee" style="top:90px;left:52%"><use href="#bee"/></svg>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">🌼 AI for Indian smallholder farmers</span>
+      <h1>See if your crop is getting <em>enough bees</em>, before it's too late.</h1>
+      <p class="lead">Parag turns any smartphone into a pollination monitor. Scan your flowering field, get a pollination score with voice advice in Marathi or Hindi, and book verified nearby beekeepers in one tap.</p>
+      <div class="cta-row">
+        <a href="#how" class="btn btn-dark">See how it works</a>
+        <a href="#contact" class="btn btn-ghost">Partner with us</a>
+      </div>
+      <div class="trust">
+        <span>📱 <b>Phone only</b>, no sensors</span>
+        <span>🗣️ <b class="dev">मराठी · हिन्दी</b> voice</span>
+        <span>☁️ Built on <b>Google AI</b></span>
+      </div>
+    </div>
+
+    <div class="phone" role="img" aria-label="Parag app showing a sample pollination score of 41 out of 100 for Alphonso mango">
+      <div class="screen">
+        <div class="bar"><span>9:42 AM</span><span>Parag 🐝</span></div>
+        <div class="crop">Alphonso mango · 2 acres</div>
+        <div class="loc">Ratnagiri, Maharashtra · Scan of 5 spots</div>
+        <div class="gauge">
+          <svg viewBox="0 0 200 110">
+            <path d="M15 100 A85 85 0 0 1 185 100" stroke="#f1ebdc" stroke-width="18" fill="none" stroke-linecap="round"/>
+            <path d="M15 100 A85 85 0 0 1 185 100" stroke="url(#g)" stroke-width="18" fill="none" stroke-linecap="round" stroke-dasharray="267" stroke-dashoffset="157"/>
+            <defs><linearGradient id="g"><stop offset="0" stop-color="#c8492f"/><stop offset="1" stop-color="#f2a516"/></linearGradient></defs>
+          </svg>
+          <div class="val">41<small>/100</small></div>
+        </div>
+        <div style="text-align:center"><span class="chip">Below benchmark · confidence: medium</span></div>
+        <div class="risk">Scenario yield at risk<b>₹1.2 – 1.8 lakh</b></div>
+        <div class="voice"><div class="mic">🎙️</div><span class="dev">"तुमच्या आंब्याला पुरेशा मधमाश्या मिळत नाहीत. ४ पेट्या ठेवा."</span></div>
+        <div class="book">Book 4 hives nearby →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" style="color:var(--honey)">The problem</div>
+      <h2>A silent yield killer that farmers can't see.</h2>
+      <p>Indian farmers lose yield because they cannot tell when their flowering crops are under-pollinated, and have no easy way to get bees in time.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="num">20–35%</div><p>yield increase reported from managed bee pollination, still unused by most farmers.</p></div>
+      <div class="stat"><div class="num">₹2,500</div><p>per bee box per month. A rent-a-bee market already exists, but farmers have no data to trigger it.</p></div>
+      <div class="stat"><div class="num">3.4M <span style="font-size:1.4rem;color:#c9d8ce">vs</span> ~200M</div><p>managed bee colonies in India today vs. the estimated potential. A huge pollination gap.</p></div>
+    </div>
+    <div class="pains">
+      <div class="pain"><h3>Invisible until too late</h3><p>Flowers look normal. The loss shows up weeks later as poor fruit set, misshapen fruit and lower yield, when nothing can be done.</p></div>
+      <div class="pain"><h3>Bees are declining</h3><p>Mango, pomegranate, mustard, sunflower, onion seed, cucurbits and many oilseeds need insect pollination, while pesticides, habitat loss and heat stress shrink bee populations.</p></div>
+      <div class="pain"><h3>The fix exists, the demand doesn't</h3><p>Renting bee boxes works, but few farmers know when or how many hives they need, or whom to trust. Beekeepers sit on idle hives.</p></div>
+      <div class="pain"><h3>Global tools don't fit Indian farms</h3><p>BeeHero (US) and AgriSound (UK) show growers pay for pollination data, but they rely on in-field hardware for large farms. Smallholders need a phone-only, vernacular, low-cost tool.</p></div>
+    </div>
+    <p class="src">Sources: Times of India report on rent-a-bee pollination, as summarised by C4S; BEEKIND / MIT Solve.</p>
+  </div>
+</section>
+
+<!-- HOW -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head center">
+      <div class="kicker">How Parag works</div>
+      <h2>Scan. Score. Act.</h2>
+      <p>Parag watches and listens to a flowering field, shows whether pollinator activity is below the benchmark for that crop and stage, and books nearby hives in one tap.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="n">01</span>
+        <div class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1f3a2b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><circle cx="12" cy="14" r="3"/><path d="M10 5h4"/></svg></div>
+        <h3>Scan</h3>
+        <p>The app guides the farmer to record short video and audio clips at 5 spots in the field during peak bee hours (9–11 am). Works offline.</p>
+      </div>
+      <div class="step">
+        <span class="n">02</span>
+        <div class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1f3a2b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div>
+        <h3>Score</h3>
+        <p>Video-first AI counts bee visits per flower, with buzz audio as a supporting signal, and compares them with published benchmarks for that crop and stage. You get a pollination activity score, a confidence level and an estimate of ₹ yield at risk.</p>
+      </div>
+      <div class="step">
+        <span class="n">03</span>
+        <div class="ic"><svg width="28" height="28"><use href="#bee"/></svg></div>
+        <h3>Act</h3>
+        <p>If pollination is short, Parag says how many hives you need and for how long. One tap books the nearest verified beekeeper, timed around pesticide sprays. A follow-up scan confirms the improvement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section class="demo">
+  <div class="wrap demo-grid">
+    <div class="result-card">
+      <div class="kicker" style="font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:.75rem;color:var(--honey-deep);margin-bottom:10px">Sample farmer result · illustrative</div>
+      <h3 style="font-size:1.6rem;margin-bottom:18px">Alphonso mango, 2 acres, Ratnagiri</h3>
+      <div class="row" style="display:block">
+        <div style="display:flex;justify-content:space-between"><span class="k">Pollination activity</span><span class="v">41 / 100</span></div>
+        <div class="bar-track"><div class="bar-fill"></div></div>
+        <div class="bench"><span>Low</span><span>Crop benchmark ▲</span><span>Healthy</span></div>
+      </div>
+      <div class="row"><span class="k">Confidence</span><span class="v">Medium</span></div>
+      <div class="row"><span class="k">Scenario yield at risk</span><span class="v">₹1.2–1.8 lakh</span></div>
+      <div class="row"><span class="k">Hive plan</span><span class="v">Per crop guidelines</span></div>
+      <a href="#contact" class="btn btn-honey" style="width:100%;justify-content:center;margin-top:12px">Book now</a>
+      <p class="note">Yield-at-risk figures are scenarios, to be validated per crop. Bee activity is not the same as pollination, so we check scores against actual fruit set.</p>
+    </div>
+    <div>
+      <div class="sec-head" style="margin-bottom:30px">
+        <div class="kicker">Designed for the field</div>
+        <h2>Built for farmers, not data scientists.</h2>
+      </div>
+      <ul class="feature-list">
+        <li><span class="dot">✓</span><div><b>Talk to Parag in your language</b><p>Ask "Is my mango getting enough bees?" and hear spoken guidance in Marathi or Hindi, powered by Gemini Live.</p></div></li>
+        <li><span class="dot">✓</span><div><b>Works without internet</b><p>Gemma 3n runs on the phone for an offline estimate. The full analysis syncs when you're back online.</p></div></li>
+        <li><span class="dot">✓</span><div><b>Picture report cards</b><p>Simple visuals show what a healthy result looks like, so farmers can understand their score without reading a chart.</p></div></li>
+        <li><span class="dot">✓</span><div><b>Spray-safe hive scheduling</b><p>Bookings are timed around pesticide sprays to protect the bees you rent.</p></div></li>
+        <li><span class="dot">✓</span><div><b>Launch crops</b><p>Mango, mustard and cucurbits, starting in Maharashtra.</p></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section>
+  <div class="wrap">
+    <div class="sec-head center">
+      <div class="kicker">Who benefits</div>
+      <h2>Good for farms, beekeepers and bees.</h2>
+    </div>
+    <div class="benefits">
+      <div class="benefit"><div class="em">👩‍🌾</div><h3>Farmers & FPOs</h3><p>Protect yield and income.</p></div>
+      <div class="benefit"><div class="em">🐝</div><h3>Beekeepers</h3><p>Steady, data-backed hive rental demand.</p></div>
+      <div class="benefit"><div class="em">🌱</div><h3>Seed & agri-input cos.</h3><p>Pollination assurance at scale.</p></div>
+      <div class="benefit"><div class="em">🏛️</div><h3>Government & insurers</h3><p>Village-level pollination maps.</p></div>
+      <div class="benefit"><div class="em">🌍</div><h3>Nature</h3><p>More managed bees, less blind spraying in bloom.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH -->
+<section class="tech" id="tech">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Technology</div>
+      <h2>Powered by Google AI and Google Cloud.</h2>
+      <p>Serverless, autoscaling and pay-per-use, so Parag can grow from one district to the whole country.</p>
+    </div>
+    <div class="models">
+      <div class="model"><span class="tag">Core brain</span><h3>Gemini API</h3><p>Video-first multimodal analysis counts pollinator visits per flower, uses buzz audio as support, and reasons over crop, stage and weather to produce the score, ₹ scenario and hive plan. Flash for scale, Pro for reasoning.</p></div>
+      <div class="model"><span class="tag">Voice</span><h3>Gemini Live</h3><p>Real-time spoken conversations in Marathi, Hindi and other Indian languages, right in the orchard.</p></div>
+      <div class="model"><span class="tag">On-device</span><h3>Gemma 3n</h3><p>Runs on the phone for a preliminary offline estimate and stores clips locally. Keeps costs low at mass scale.</p></div>
+      <div class="model"><span class="tag">Visuals</span><h3>Nano Banana</h3><p>Generates visual report cards and before/after illustrations (flower → healthy fruit) that low-literacy farmers can trust.</p></div>
+    </div>
+
+    <div class="arch">
+      <div class="lane"><h4>Apps</h4>
+        <div class="node"><b>Farmer app</b><span>Android · Marathi, Hindi · Gemma 3n offline</span></div>
+        <div class="node"><b>Gemini Live voice</b><span>Talk to Parag in the field</span></div>
+        <div class="node"><b>Beekeeper app</b><span>Hive availability · bookings</span></div>
+        <div class="node"><b>FPO / Seed co. dashboard</b><span>Pollination maps · reports</span></div>
+      </div>
+      <div class="lane"><h4>Ingest</h4>
+        <div class="node"><b>Cloud Run API</b><span>Firebase Auth · FCM push</span></div>
+        <div class="node"><b>Pub/Sub</b><span>Scan queue · seasonal spikes</span></div>
+        <div class="node"><b>Cloud Storage</b><span>Audio / video clips</span></div>
+      </div>
+      <div class="lane"><h4>AI agents</h4>
+        <div class="node"><b>Pollination analyzer</b><span>Gemini on Vertex AI · visit count · buzz audio</span></div>
+        <div class="node"><b>Scoring agent</b><span>Crop stage + weather + scan → score, ₹ at risk</span></div>
+        <div class="node"><b>Booking agent</b><span>Agent Skills: match · book · remind</span></div>
+        <div class="node"><b>Report cards</b><span>Nano Banana visuals</span></div>
+      </div>
+      <div class="lane"><h4>Data</h4>
+        <div class="node"><b>Firestore</b><span>Farms · beekeepers · bookings</span></div>
+        <div class="node"><b>BigQuery</b><span>Scan history · pollination map</span></div>
+        <div class="node"><b>Looker Studio</b><span>B2B dashboards</span></div>
+      </div>
+    </div>
+    <ol class="flow">
+      <li>The phone captures clips; Gemma 3n gives a preliminary offline activity estimate.</li>
+      <li>Clips sync to Cloud Storage via Cloud Run and Pub/Sub.</li>
+      <li>When online, Gemini runs the full video + audio analysis, with confidence.</li>
+      <li>The scoring agent adds crop stage and weather, then outputs the score, confidence and ₹ scenario.</li>
+      <li>The booking agent books hives and notifies both sides.</li>
+      <li>BigQuery builds village pollination maps for B2B customers.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- BUSINESS -->
+<section id="business">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Business model</div>
+      <h2>Free for farmers. Paid by the value we unlock.</h2>
+    </div>
+    <div class="biz-grid">
+      <div class="biz"><div class="big">10–15%</div><h3 style="margin-top:10px">Marketplace commission</h3><ul><li>On every hive rental booked through Parag</li><li>Free basic scan for every farmer</li></ul></div>
+      <div class="biz"><div class="big">B2B</div><h3 style="margin-top:10px">Subscriptions & data</h3><ul><li>Per acre per season for seed companies, FPOs and agri-input firms</li><li>Pollination data for insurers and horticulture departments</li></ul></div>
+      <div class="biz"><div class="big">GTM</div><h3 style="margin-top:10px">Go-to-market & moat</h3><ul><li>Launch in 1–2 Maharashtra districts with a manually verified beekeeper network</li><li>Distribution via FPOs and KVKs</li><li>Moat: a growing dataset of flower visits, hive interventions and fruit-set outcomes</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Founding team</div>
+      <h2>Team Parag</h2>
+    </div>
+    <div class="team-grid">
+      <div class="member"><div class="avatar">PM</div><div><h3>Pravin Menghani</h3><div class="role">Co-founder</div><p>21+ years in infrastructure, cloud and AI. Builds production multilingual voice and agentic AI. GenAI trainer for Simplilearn, Edureka and universities; AWS Summit speaker.</p></div></div>
+      <div class="member"><div class="avatar">PA</div><div><h3>Purshottam Assudani</h3><div class="role">Co-founder & Architect</div><p>Freelance consultant to multiple organisations on data, cloud, systems, networks, security and identity & access management. Multi-cloud trainer (Google Cloud, AWS, Azure). Owns Parag's platform architecture, security and farmer-data protection.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY NOW -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="why">
+      <h2>Why now?</h2>
+      <ul>
+        <li><b>01</b><span>Bee populations are under pressure from pesticides, habitat loss and heat.</span></li>
+        <li><b>02</b><span>The government's National Beekeeping and Honey Mission is expanding hive supply.</span></li>
+        <li><b>03</b><span>On-device multimodal AI is becoming practical on affordable smartphones.</span></li>
+        <li><b>→</b><span style="color:#fff;font-weight:600">Parag creates the missing farmer-side demand.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <div class="wrap">
+    <h2>Help us bring the bees back to Indian farms.</h2>
+    <p>We're looking for farmers, FPOs, beekeepers, KVKs and agri partners in Maharashtra for our first pilot. Get in touch.</p>
+    <div class="cta-row" style="justify-content:center">
+      <a href="mailto:hello@paragpollinators.com?subject=Parag%20pilot" class="btn btn-honey">hello@paragpollinators.com</a>
+      <a href="https://github.com/pravinmenghani1/paragpollinators.com" class="btn btn-ghost">View on GitHub</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="#" class="brand" style="font-size:1.15rem"><svg width="26" height="26"><use href="#bee"/></svg>Parag <small>पराग</small></a>
+    <span>Making pollination visible · Built on Google AI & Google Cloud</span>
+    <span>© 2026 Team Parag</span>
+  </div>
+</footer>
+</body>
+</html>
